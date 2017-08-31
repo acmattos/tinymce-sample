@@ -1,0 +1,16 @@
+<!doctype html>
+<html ng-app="editor" lang="pt" ng-strict-di>
+  <head>
+    <title>Webpack 3 + AngularJS 1.6.5 + TinyMCE 4.6.5 Integration</title>
+  </head>
+  <body>
+     <h1>Webpack 3 + AngularJS 1.6.5 + TinyMCE 4.6.5 Integration</h1>
+     <br/><br/>
+     <form method="post" >
+         <tiny-mce document="vm.document.content"></tiny-mce>
+         <br/><br/>
+         Content => {{vm.document.content}}
+       </form>
+       <script src="tinymce.min.js"></script>
+  </body>
+</html>
