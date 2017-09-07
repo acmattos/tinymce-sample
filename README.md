@@ -1,5 +1,17 @@
-# tinymce-sample
-## Webpack 3 + AngularJS 1.6.5 + TinyMCE 4.6.5 Integration
+
+
+```
+
+
+# Webpack 3.5.5 + AngularJS 1.6.5 + TinyMCE 4.6.5 Integration
+
+[Tiny MCE](https://www.tinymce.com/) is designed for a full featured web editing. You can easily extend it and customize it. But, we you need to put it together with Angular JS (1.6.5) and Webpack (3.5.5) thinks can be a little odd.
+
+This is a "step by step" manual. It's designed to help you integrate those tools and develop rich web applications. It's based on Windows SO, but you can easily adjust to some kind of Linux flavor you love it! I also supose that you already have [NodeJS](https://nodejs.org/en/download/) and [Visual Studio Code](https://code.visualstudio.com/download) installed on your computer.
+
+So, let's get started! 
+
+1) Open a console an type:
 
 ```
 mkdir c:\workspace\tinymce-sample\src
@@ -8,7 +20,7 @@ cd c:\workspace\tinymce-sample\
 
 npm init -y
 ```
-Wrote to c:\workspace\tinymce-sample\package.json:
+Now, you'll probably have this *c:\workspace\tinymce-sample\package.json* on root's project:
 
 ```
 {
@@ -23,14 +35,16 @@ Wrote to c:\workspace\tinymce-sample\package.json:
   "author": "",
   "license": "ISC"
 }
-
+```
+2) Let's install webpack as a development dependency:
 ```
 npm install --save-dev webpack 
-
+```
+3) AngularJS and TinyMCE are project dependencies:
+```
 npm install --save angular@1.6.5 tinymce@4.6.5 
 ```
-
-After that, your package.json should look like this:
+Your *package.json* should look like this:
 ```
 {
   "name": "tinymce-sample",
@@ -52,50 +66,45 @@ After that, your package.json should look like this:
   }
 }
 ```
-Open this project in a editor 
+4) Open your project on *VS Code* editor:
 
-create on the root of your project:
-
+Create on root's directory of your project:
+```
 webpack.config.js
-
-Create inside src:
-
+```
+Inside *src* directory, create the following files:
+```
 index.js
 index.html
 tinymce (dir)
-
-create inside tinymce:
-
+```
+And *tinymce* directory. Inside that, create:
+```
 index.js
 tinymce.directive.html
 tinymce.directive.js
 tinymce.service.js
-
-Open src/index.js and type:
+```
+5) Open *src/index.js* and type:
 ```
 import angular from 'angular';
 
-export default angular.module('editor', [
-
-])
-.name;
+export default angular.module('editor', []).name;
 ```
-Open src/index.html and type:
+6) Open *src/index.html* and type:
 ```
 <!doctype html>
 <html ng-app="editor" lang="pt" ng-strict-di>
   <head>
-    <title>TinyMCE + Angular 1.6.5 + Webpack 3</title>
+    <title>Webpack 3.5.5 + AngularJS 1.6.5 + TinyMCE 4.6.5</title>
   </head>
   <body>
-     <h1>TinyMCE + Angular 1.6.5 + Webpack 3</h1>
+     <h1>Webpack 3.5.5 + AngularJS 1.6.5 + TinyMCE 4.6.5</h1>
      <br/><br/>
   </body>
 </html>
-
 ```
-
-Open package.json and change "scripts" from:
+7) Open *package.json* and change *scripts* from:
 ```
 "scripts": {
    "test": "echo \"Error: no test specified\" && exit 1"
@@ -107,7 +116,7 @@ to:
    "build": "webpack"
 }
 ```
-Open webpack.config.js and type:
+8) Open *webpack.config.js* and type:
 ```
 var path = require('path');
 var webpack = require('webpack');
@@ -128,7 +137,9 @@ const config = {
 }
 module.exports = config;
 ```
-Now let's run:
+## First run
+
+First part is accomplished. Now it's time to run our *build* directive and see what we've done so far:
 
 ```
 npm run build
@@ -150,14 +161,15 @@ bundle.384878bc94ad28ef5f32.js  1.27 MB       1  [emitted]  [big]  bundle
    [3] multi angular 28 bytes {0} [built]
     + 2 hidden modules
 ```
-It's not complete but you can check if webpack is running accordingly. Let's configure webpack a little more:
+If came to this point, you haven't missed a thing through out here. But our job it's not complete. Let's configure *webpack* a little more:
 
-add in the top:
+1) On the top of *webpack.config.js* add the following lines:
 ```
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-
-add to config const:
+```
+2) Now, it's time to add *module* configuration, just below *output*:
+```
    module:{
       rules:[
          {
@@ -183,11 +195,11 @@ add to config const:
       })
    ]
 ```
-let's install
+3) Let's install some loaders and plugins:
 ```
 npm install --save-dev babel-loader babel-core html-loader clean-webpack-plugin html-webpack-plugin
 ```
-then run:
+4) Now it's time to run build directive again:
 ```
 c:\workspace\tinymce-sample>npm run build
 
@@ -213,14 +225,14 @@ Child html-webpack-plugin for "index.html":
      1 asset
        [0] ./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html 279 bytes {0} [built]
 ```
+As you can see, bundle.\*.js file has no longer the same size as vendor.\*.js file. Your results must be similar to mine. Now it's time to set TinyMCE up.
 
-Check your results to see if they are similar to mine. If so, let's move to TinyMCE configuration.
-
-Open tinymce.directive.html and type:
+## TinyMCE Configuration
+1) Open *tinymce.directive.html* and type:
 ```
 <textarea ng-model="document"></textarea>
 ```
-Open tinymce.directive.js and type:
+2) Open *tinymce.directive.js* and type:
 ```
 import angular         from 'angular';
 import tinyMceTemplate from './tinymce.directive.html';
@@ -366,7 +378,7 @@ export default ['tinyMceService', (tinyMceService) => {
    return directive;
 }];
 ```
-Open tinymce.service.js and type:
+3) Open tinymce.service.js and type:
 ```
 export default class TinyMceService {
    constructor() {
@@ -383,7 +395,7 @@ export default class TinyMceService {
    }
 }
 ```
-Open tinymce/index.js and type:
+4) Open *tinymce/index.js* and type:
 ```
 import angular           from 'angular';
 import tinyMceDirective  from './tinymce.directive';
@@ -394,7 +406,7 @@ export default angular.module('editor.tinymce', [])
 .service('tinyMceService', tinyMceService)
 .name;
 ```
-Reopen index.html and include inside body tag:
+5) Reopen *index.html* and include after *h1* tag:
 ```
     <form method="post" >
       <tiny-mce document="vm.document.content"></tiny-mce>
@@ -402,32 +414,31 @@ Reopen index.html and include inside body tag:
     </form>
     <script src="tinymce.min.js"></script>
 ```
-Reopen index.js and make sure it looks like that:
+6) Reopen *index.js* and make sure it looks like that:
 ```
 import angular from 'angular';
 import tinymce from './tinymce';
 
 export default angular.module('editor', [
    tinymce
-])
-.name;
+]).name;
 ```
-Reopen package.jason and include inside "scripts":
+7) Reopen *package.jason* and include inside *scripts*:
 ```
 "serve": "webpack-dev-server"
-
-"scripts" should look like that:
-
+```
+*scripts* should look like that:
+```
   "scripts": {
     "build": "webpack",
     "serve": "webpack-dev-server"
   }
-  ```
-let's install
+```
+7) Let's install *webpack-dev-server*:
 ```
 npm install --save-dev webpack-dev-server
 ```
-And run:
+8) And run *serve* directive:
 ```
 c:\workspace\tinymce-sample>npm run serve
 
@@ -472,15 +483,18 @@ Child html-webpack-plugin for "index.html":
     ```   [0] ./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html 495
  bytes {0} [built]
 webpack: Compiled successfully.
-
-Open your favorite browser (Chrome and Firefox are my suggestions) and type:
 ```
- http://localhost:8080/
-``` 
- The application is now running... But wait a minute!!! There is no editor on that screen!!!
- 
- Let´s do the final set up. Stop server. Open webpack.config.js and add the following section to "plugins":
- ```
+9) Open your favorite browser (Chrome and Firefox are my suggestions) and type:
+```
+http://localhost:8080/
+```
+The application is running now... But wait a minute!!! There is no editor on that browser!!!
+
+It's time for the last set up. But first, stop the server hitting *CTRL+C*.
+
+## Final steps
+1)  Open *webpack.config.js* and add the following lines to *plugins*:
+```
        new CopyWebpackPlugin([
        { 
           context: './node_modules/tinymce/',
@@ -491,16 +505,16 @@ Open your favorite browser (Chrome and Firefox are my suggestions) and type:
              // Doesn't copy any files with a txt extension    
              '*.json', '*.txt', '*.md'
        ]})
- ```
- And that section on the beggining of the file:
- ```
+```
+2) At the very begining of the same file, type:
+```
  var CopyWebpackPlugin = require('copy-webpack-plugin');
- ```
- let's install
+```
+3) It's time to install *copy-webpack-plugin*:
 ```
 npm install --save-dev copy-webpack-plugin
 ```
-And run build again. You should see something like that:
+4) And run *build* directive again. You should see something like that:
 
 ```
                  plugins/legacyoutput/index.js  220 bytes          [emitted]
@@ -528,9 +542,9 @@ Child html-webpack-plugin for "index.html":
      1 asset
        [0] ./node_modules/html-webpack-plugin/lib/loader.js!./src/index.html 495
  bytes {0} [built]
-
-Check dist directory. Now you have a little bit more files than before. That's ok. Let's run the server again. 
- 
+```
+5) Check *dist* directory. You now have a little bit more files than you've had before. That's fine. Let's run the server again:
+```
 npm run serve
 ```
-Reload the application. Voilá! We can see TinyMCE Editor up an running, integrated to AngularJS. 
+Go to your browser and reload the application. *Voilá!* You can see TinyMCE Editor up an running, integrated to AngularJS and packed using Webpack.
