@@ -1,8 +1,5 @@
 
 
-```
-
-
 # Webpack 3.5.5 + AngularJS 1.6.5 + TinyMCE 4.6.5 Integration
 
 [Tiny MCE](https://www.tinymce.com/) is designed for a full featured web editing. You can easily extend it and customize it. But, we you need to put it together with Angular JS (1.6.5) and Webpack (3.5.5) thinks can be a little odd.
